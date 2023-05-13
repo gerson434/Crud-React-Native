@@ -347,12 +347,163 @@ export default App;
 
 ```
 
-This is a React Native CRUD (Create, Read, Update, Delete) project built with Expo that demonstrates how to use Firebase Realtime Database in a React Native app to implement CRUD operations. The app has two screens: "Add User" and "User Detail".
+# Documentación del código
 
-The "Add User" screen allows the user to input user details such as name, email, and phone number and save them to the Firebase database. The "User Detail" screen displays the details of a selected user and allows for editing and deletion of the user.
+A continuación se presenta la documentación del código en formato Markdown (`.md`) para el archivo `UserScreen.js`.
 
-To get started with the project, you need to install Node.js, Expo CLI, and the required dependencies. Then, create a new React Native project with Expo and configure it for your Firebase app. After that, you can use the code provided in the project to implement the "Add User" and "User Detail" screens.
+## Descripción
 
-The "Add User" screen uses the `AddUserScreen` component to accept user input and save the data to Firebase when the user clicks the "Save User" button. The "User Detail" screen uses the `UserDetailScreen` component to display the details of a selected user and allow for editing and deletion of the user.
+El archivo `UserScreen.js` contiene el código para la pantalla de usuario en la aplicación móvil. Esta pantalla muestra una lista de usuarios obtenidos desde una base de datos Firebase y permite crear nuevos usuarios.
 
-Overall, this project provides a good starting point for building a React Native app that uses Firebase Realtime Database for CRUD operations.
+## Funcionamiento
+
+El componente `UserScreen` es exportado por defecto y se utiliza en el archivo principal de la aplicación (`App.js`).
+
+Cuando se monta el componente, se utiliza el hook `useEffect` para obtener una instantánea de la colección "users" de la base de datos Firebase. El resultado se almacena en el estado `users` mediante el uso del hook `useState`.
+
+La función `onSnapshot` se utiliza para escuchar los cambios en la colección de usuarios y actualizar la lista de usuarios en tiempo real. Se obtienen los datos de cada documento en la colección y se almacenan en un objeto `user`, que se agrega al array `users`.
+
+El componente `ScrollView` permite desplazar la lista de usuarios hacia arriba o hacia abajo.
+
+La función `map` se utiliza para recorrer el array `users` y renderizar un componente `ListItem` por cada usuario. Los datos de cada usuario se muestran en los componentes `ListItem.Title` y `ListItem.Subtitle`.
+
+Al hacer clic en un `ListItem`, se navega a la pantalla `UserDetailScreen` y se pasa el `id` del usuario como parámetro mediante `props.navigation.navigate`.
+
+## Dependencias
+
+El archivo `UserScreen.js` utiliza las siguientes dependencias:
+
+- `react`
+
+- `react-native`
+
+- `react-native-elements`
+
+- `react-native-gesture-handler`
+
+- `firebase`
+
+## Código
+
+```jsx
+
+import React, { useState, useEffect } from "react";
+
+import { Button, StyleSheet } from "react-native";
+
+import { ListItem, Avatar } from "react-native-elements";
+
+import { ScrollView } from "react-native-gesture-handler";
+
+import firebase from "../database/firebase";
+
+const UserScreen = (props) => {
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+
+    firebase.db.collection("users").onSnapshot((querySnapshot) => {
+
+      const users = [];
+
+      querySnapshot.docs.forEach((doc) => {
+
+        const { name, email, phone } = doc.data();
+
+        users.push({
+
+          id: doc.id,
+
+          name,
+
+          email,
+
+          phone,
+
+        });
+
+      });
+
+      setUsers(users);
+
+    });
+
+  }, []);
+
+  return (
+
+    <ScrollView>
+
+      <Button
+
+        onPress={() => props.navigation.navigate("CreateUserScreen")}
+
+        title="Create User"
+
+      />
+
+      {users.map((user) => {
+
+        return (
+
+          <ListItem
+
+            key={user.id}
+
+            bottomDivider
+
+            onPress={() => {
+
+              props.navigation.navigate("UserDetailScreen", {
+
+                userId: user.id,
+
+              });
+
+            }}
+
+          >
+
+            <ListItem.Chevron />
+
+            <Avatar
+
+              source={{
+
+                uri:
+
+                  "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+
+              }}
+
+              rounded
+
+            />
+
+            <ListItem.Content>
+
+              <ListItem.Title>{user.name}</ListItem.Title>
+
+              <ListItem.Subtitle>{user.email}</ListItem.Subtitle>
+
+            </ListItem.Content>
+
+          </ListItem>
+
+        );
+
+      })}
+
+    </ScrollView>
+
+  );
+
+};
+
+export default UserScreen;
+
+```
+The code you provided is a Python program that calculates the average of a list of numbers. It does this by first initializing a variable "total" to 0, and then looping through each number in the list, adding it to the total variable. After the loop finishes, it calculates the average by dividing the total by the length of the list.
+
+Overall, this code is a simple and straightforward implementation of an average calculation. However, it could be improved by adding some error handling to ensure that the list is not empty and that all the elements are numeric. Additionally, the program could be made more versatile by allowing the user to input their own list of numbers rather than hardcoding it in the program.

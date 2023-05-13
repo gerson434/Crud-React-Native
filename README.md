@@ -347,31 +347,31 @@ export default App;
 
 ```
 
-# Documentación del código
+# User List
 
-A continuación se presenta la documentación del código en formato Markdown (`.md`) para el archivo `UserScreen.js`.
+Below is the Markdown format documentation for the `UserScreen.js` file.
 
-## Descripción
+## Description
 
-El archivo `UserScreen.js` contiene el código para la pantalla de usuario en la aplicación móvil. Esta pantalla muestra una lista de usuarios obtenidos desde una base de datos Firebase y permite crear nuevos usuarios.
+The `UserScreen.js` file contains the code for the user screen in the mobile application. This screen displays a list of users obtained from a Firebase database and allows for creating new users.
 
-## Funcionamiento
+## Functionality
 
-El componente `UserScreen` es exportado por defecto y se utiliza en el archivo principal de la aplicación (`App.js`).
+The `UserScreen` component is exported by default and is used in the main application file (`App.js`).
 
-Cuando se monta el componente, se utiliza el hook `useEffect` para obtener una instantánea de la colección "users" de la base de datos Firebase. El resultado se almacena en el estado `users` mediante el uso del hook `useState`.
+When the component mounts, the `useEffect` hook is used to fetch a snapshot of the "users" collection from the Firebase database. The result is stored in the `users` state using the `useState` hook.
 
-La función `onSnapshot` se utiliza para escuchar los cambios en la colección de usuarios y actualizar la lista de usuarios en tiempo real. Se obtienen los datos de cada documento en la colección y se almacenan en un objeto `user`, que se agrega al array `users`.
+The `onSnapshot` function is used to listen for changes in the collection of users and update the list of users in real-time. The data from each document in the collection is obtained and stored in a `user` object, which is added to the `users` array.
 
-El componente `ScrollView` permite desplazar la lista de usuarios hacia arriba o hacia abajo.
+The `ScrollView` component allows for scrolling the list of users up or down.
 
-La función `map` se utiliza para recorrer el array `users` y renderizar un componente `ListItem` por cada usuario. Los datos de cada usuario se muestran en los componentes `ListItem.Title` y `ListItem.Subtitle`.
+The `map` function is used to iterate over the `users` array and render a `ListItem` component for each user. The data for each user is displayed in the `ListItem.Title` and `ListItem.Subtitle` components.
 
-Al hacer clic en un `ListItem`, se navega a la pantalla `UserDetailScreen` y se pasa el `id` del usuario como parámetro mediante `props.navigation.navigate`.
+When a `ListItem` is clicked, the `UserDetailScreen` is navigated to, and the `id` of the user is passed as a parameter using `props.navigation.navigate`.
 
-## Dependencias
+## Dependencies
 
-El archivo `UserScreen.js` utiliza las siguientes dependencias:
+The `UserScreen.js` file uses the following dependencies:
 
 - `react`
 
@@ -383,7 +383,7 @@ El archivo `UserScreen.js` utiliza las siguientes dependencias:
 
 - `firebase`
 
-## Código
+## Code
 
 ```jsx
 
@@ -399,105 +399,105 @@ import firebase from "../database/firebase";
 
 const UserScreen = (props) => {
 
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  useEffect(() => {
+  useEffect(() => {
 
-    firebase.db.collection("users").onSnapshot((querySnapshot) => {
+    firebase.db.collection("users").onSnapshot((querySnapshot) => {
 
-      const users = [];
+      const users = [];
 
-      querySnapshot.docs.forEach((doc) => {
+      querySnapshot.docs.forEach((doc) => {
 
-        const { name, email, phone } = doc.data();
+        const { name, email, phone } = doc.data();
 
-        users.push({
+        users.push({
 
-          id: doc.id,
+          id: doc.id,
 
-          name,
+          name,
 
-          email,
+          email,
 
-          phone,
+          phone,
 
-        });
+        });
 
-      });
+      });
 
-      setUsers(users);
+      setUsers(users);
 
-    });
+    });
 
-  }, []);
+  }, []);
 
-  return (
+  return (
 
-    <ScrollView>
+    <ScrollView>
 
-      <Button
+      <Button
 
-        onPress={() => props.navigation.navigate("CreateUserScreen")}
+        onPress={() => props.navigation.navigate("CreateUserScreen")}
 
-        title="Create User"
+        title="Create User"
 
-      />
+      />
 
-      {users.map((user) => {
+      {users.map((user) => {
 
-        return (
+        return (
 
-          <ListItem
+          <ListItem
 
-            key={user.id}
+            key={user.id}
 
-            bottomDivider
+            bottomDivider
 
-            onPress={() => {
+            onPress={() => {
 
-              props.navigation.navigate("UserDetailScreen", {
+              props.navigation.navigate("UserDetailScreen", {
 
-                userId: user.id,
+                userId: user.id,
 
-              });
+              });
 
-            }}
+            }}
 
-          >
+          >
 
-            <ListItem.Chevron />
+            <ListItem.Chevron />
 
-            <Avatar
+            <Avatar
 
-              source={{
+              source={{
 
-                uri:
+                uri:
 
-                  "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+                  "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
 
-              }}
+              }}
 
-              rounded
+              rounded
 
-            />
+            />
 
-            <ListItem.Content>
+            <ListItem.Content>
 
-              <ListItem.Title>{user.name}</ListItem.Title>
+              <ListItem.Title>{user.name}</ListItem.Title>
 
-              <ListItem.Subtitle>{user.email}</ListItem.Subtitle>
+              <ListItem.Subtitle>{user.email}</ListItem.Subtitle>
 
-            </ListItem.Content>
+            </ListItem.Content>
 
-          </ListItem>
+          </ListItem>
 
-        );
+        );
 
-      })}
+      })}
 
-    </ScrollView>
+    </ScrollView>
 
-  );
+  );
 
 };
 

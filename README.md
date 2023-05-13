@@ -55,7 +55,10 @@ Installation Steps:
 
     export default firebase;
 ```
-
+## Screen photos
+<img src="./img/Captura de pantalla 2023-05-13 132500.png">
+<img src="./img/Captura de pantalla 2023-05-13 132553.png">
+<img src="./img/Captura de pantalla 2023-05-13 132619.png">
 
 Add User Screen
 ============================

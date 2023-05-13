@@ -7,7 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 
-// Components ajam
+// Components 
 import CreateUserScreen from "./screens/CreateUserScreen";
 import UserDetailScreen from "./screens/UserDetailScreen";
 import UsersList from "./screens/UsersList";
